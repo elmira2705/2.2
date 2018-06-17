@@ -1,6 +1,37 @@
 <?php
 $test_number=(int)$_GET['test_number'];
 
+if (!isset($_GET['test_number'])) {
+  http_response_code (404);
+  echo 'Теста с таким номером не существует. Попробуйте еще раз.';
+  exit;
+}
+
+
+if (!empty($_GET['q1']['q2']['q3'])) {
+$right = 0;
+$wrong = 0;
+   if ($_GET[q1] == ["answer1"]){
+     $right++;
+   } else {
+     $wrong++;
+   }
+   if ($_GET[q2] == ["answer3"]){
+     $right++;
+   } else {
+     $wrong++;
+   }
+   if ($_GET[q3] == ["answer1"]){
+     $right++;
+   } else {
+     $wrong++;
+   }
+ } else {
+   echo 'Вы не ответили на вопросы';
+   session_start ();
+   $_SESSION ['right']=$right;
+   $_SESSION ['wrong']=$wrong;
+ }
 ?>
 
 <html>
@@ -10,13 +41,14 @@ $test_number=(int)$_GET['test_number'];
   <body>
     <h4>Пожалуйста, выберите тест для прохождения:</h4>
 <form action="/" method="GET">
-  <div><input type="text" name="test_number">
+  <div><p>Имя:</p><input type="text" name="name"></div>
+  <div><input type="text" name="test_number"></div>
   <input type="submit" value="Выбрать">
 </form>
 <?php if(isset ($test_number)){ ?>
 <h4>Тест №<?php echo $test_number?></h4>
 <form>
-<?php  $json = file_get_contents(./Tests/."$test_number.json");
+<?php  $json = file_get_contents('http://localhost/2.2/Tests/$test_number.json', true);
   $data = json_decode($json, true);
   foreach($data as $item) { ?>
     <form action="/" method="GET">
@@ -40,27 +72,12 @@ $test_number=(int)$_GET['test_number'];
           </fieldset>
           <input type="submit" value="Отправить">
 </form>
-<?php } }
-$right = 0;
-$wrong = 0;
-   if ($_GET[q1] == ["answer1"]){
-     $right++;
-   } else {
-     $wrong++;
-   }
-   if ($_GET[q2] == ["answer3"]){
-     $right++;
-   } else {
-     $wrong++;
-   }
-   if ($_GET[q3] == ["answer1"]){
-     $right++;
-   } else {
-     $wrong++;
-   }?>
+<?php if (!empty($_GET['q1']['q2']['q3'])):  ?>
    <h4>Ваш результат:</h4>
          <tr>
            <td>Правильные ответы:<?php echo $right; ?></td>
            <td>Неправильные ответы:<?php echo $wrong; ?></td>
+         </tr>
+   <?php endif; ?>
   </body>
 </html>
