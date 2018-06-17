@@ -5,19 +5,21 @@ if (!empty($_POST) || !empty($_FILES)) {
     $_FILES['new_test']['name']);
   }
 ?>
-
-<html>
+<!doctype html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>2.2 Обработка форм. Загрузка json с тестом</title>
+  <title>2.2 Обработка форм. Загрузка тестов</title>
 </head>
 <body>
-<h3>Страница администратора</h3>
-<h4> Загрузите новый тест в формате json: </h4>
-<form enctype="multipart/form-data" action="/" method="POST">
-<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-<div><input type="file" name="new_test"></div>
-<input type="submit" value="Загрузить">
+  <h3>Страница администратора</h3>
+  <h4> Загрузите новый тест в формате json: </h4>
+  <form enctype="multipart/form-data" action="/" method="POST">
+  <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+  <div>
+    <input type="file" name="new_test">
+  </div>
+  <input type="submit" value="Загрузить">
 </form>
 </body>
 </html>
